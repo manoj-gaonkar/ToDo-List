@@ -1,0 +1,52 @@
+{% extends 'todo/base.html' %} {% block content %}
+
+<div class="">
+  <div>
+    <div class="flex items-center justify-center py-7">
+      <p class="text-4xl font-bold uppercase text-purple-600">Todo App</p>
+    </div>
+    <!-- main container baa -->
+    <div class="mx-auto h-screen w-4/6 bg-gray-50">
+      <form action="/" method="POST">
+        {% csrf_token %}
+        <div class="flex w-full">
+          <input
+            required
+            type="text"
+            name='title'
+            class="h-14 w-full border border-gray-100 px-4 outline-none focus-within:outline-none active:outline-none"
+            placeholder="your task here"
+          />
+          <button class="px-6" type="submit" title="add task">+</button>
+        </div>
+      </form>
+      <!-- this is for all tasks -->
+      <div class="my-6 grid grid-cols-2 w-full">
+        <!-- this is for single task add for below  -->
+        {% for todo in todos reversed %}
+        <div class="flex items-center bg-purple-400 rounded col-span-1 w-full ">
+          <p class="w-full px-6 py-3 font-bold"> {{ todo.title }} </p>
+          <a href="delete/{{ todo.id }}" class="px-3"
+            ><svg
+              class="fill-white"
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="30"
+              height="30"
+              viewBox="0 0 30 30"
+              style=""
+            >
+              <path
+                d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"
+              ></path></svg
+          ></a>
+        </div>
+        {% endfor %}
+        <!-- code for single task end here end for above -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
