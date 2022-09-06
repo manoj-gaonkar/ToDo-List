@@ -6,10 +6,35 @@
     <div>
       <div class="mx-auto flex w-4/6 items-center justify-between py-7">
         <p class="text-4xl font-bold uppercase text-[#FCBB6D]">Todo App</p>
+
+        {% if user1.is_authenticated %}
         <div>
-          <a href=" {% url 'login' %} " class="px-3 text-xs text-[#FEFAD4]">LOG IN</a>
-          <a href=" {% url 'signup' %} " class="px-3 text-xs text-[#FEFAD4]">SIGN UP</a>
+          <a href=" {% url 'login' %} " class="px-3 text-xs text-[#FEFAD4] font-mono"
+            >Hi {{ user.username }}!</a
+          >
+          <a href=" {% url 'logout' %} " class="px-3 text-xs text-[#FEFAD4]"
+            >
+            LOGOUT
+          </a>
         </div>
+        {% else %}
+        
+
+        <div>
+          <a href=" {% url 'login' %} " class="px-3 text-xs text-[#FEFAD4]"
+            >LOG IN</a
+          >
+          <a href=" {% url 'signup' %} " class="px-3 text-xs text-[#FEFAD4]"
+            >SIGN UP
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      <div>
+        {%if messages%} {%for message in messages%} 
+        <div class="w-4/6 px-3 py-2 bg-[rgba(0,255,0,0.3)] border border-green-500 mx-auto">{{ message }} </div>
+        {%endfor%}
+        {%endif%}
       </div>
       <!-- main container baa -->
       <div class="mx-auto h-screen w-4/6 rounded-lg bg-[#353139] p-3">
@@ -30,7 +55,24 @@
                 class="h-24 w-full border border-gray-100 px-4 outline-none"
                 placeholder="description"
               />
+              
             </div>
+            <div class='flex flex-col bg-white'>
+                <div class='flex justify-around '>
+                    <p class="px-4 py-2">Status</p>
+              <select name="status" id="status" class="border border-purple-500 text-sm">
+                <option value="P" selected>PENDING</option>
+                <option value="C" >COMPLETED</option>
+
+              </select>
+              </div>
+              <select name="priority" id="priority">
+                <option value selected>select a priority</option>
+                <option value="1" >High</option>
+                <option value="2" >Medium</option>
+                <option value="3" >Low</option>
+              </select>
+              </div>
             <button class="bg-red-100 px-6" type="submit" title="add task">
               +
             </button>
@@ -41,7 +83,7 @@
           <!-- this is for single task add for below  -->
           {% for todo in todos reversed %}
           <div
-            class="col-span-1 flex w-full justify-between rounded border border-purple-400 border-l-4 bg-orange-50"
+            class=" flex w-full justify-between rounded border border-purple-400 border-l-4 bg-orange-50"
           >
             <div class="flex flex-col">
               <p class="w-full px-6 pt-3 font-bold text-gray-800">
@@ -49,13 +91,19 @@
               </p>
               <p class="w-full px-6 py-2 text-gray-500">
                 {{ todo.description }}
+                {{ todo.user  }}
               </p>
             </div>
             <!-- this is for the task progress -->
-            <div class="flex flex-col ">
-                <!--for tick mark-->
-              <div class="bg-green-400 w-full h-full  flex justify-center items-center p-4">
-                <a href="delete/{{ todo.id }}" class=" w-full h-full  flex justify-center items-center  ">
+            <div class="flex flex-col">
+              <!--for tick mark-->
+              <div
+                class="bg-green-400 w-full h-full flex justify-center items-center p-4"
+              >
+                <a
+                  href="delete/{{ todo.id }}"
+                  class="w-full h-full flex justify-center items-center"
+                >
                   <div>
                     <svg
                       class="fill-white w-5 mx-auto"
@@ -75,8 +123,13 @@
                 </a>
               </div>
               <!-- tick mark ends above tag -->
-              <div class="bg-red-400 w-full h-full  flex justify-center items-center p-4">
-                <a href="delete/{{ todo.id }}" class=" w-full h-full  flex justify-center items-center  ">
+              <div
+                class="bg-red-400 w-full h-full flex justify-center items-center p-4"
+              >
+                <a
+                  href="delete/{{ todo.id }}"
+                  class="w-full h-full flex justify-center items-center"
+                >
                   <div>
                     <svg
                       class="fill-white w-5 mx-auto"

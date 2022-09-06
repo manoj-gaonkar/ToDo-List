@@ -1,6 +1,21 @@
 {% extends 'todo/base.html' %}
+{% load tailwind_filters %}
+
 <!--split-->
 {% block content %}
-<div>login</div>
+<div class="w-screen h-screen relative">
+    <div class="w-1/4 p-4 mx-auto shadow-md top-2/4 left-2/4 absolute -translate-x-2/4 -translate-y-2/4">
+        <p class="text-center text-gray-700 font-bold text-4xl py-4 font-mono">LOGIN</p>
+        <form action="login" method="POST">
+            {% csrf_token %}
+        <div> {{ form|crispy }} </div>
+        <div class="flex justify-between  items-center">
+        <button class="px-4 py-2 bg-cyan-400 rounded" type="submit">Login</button>
+        <a href="{% url 'signup' %} " class="text-red-900 font-mono text-xs">create an account</a>
+      </div>
+        </form>
+    </div>
+</div>
+
 
 {% endblock content %}
