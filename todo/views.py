@@ -23,7 +23,7 @@ def index(request):
     if request.user.is_authenticated:
         user = request.user
         todos = Todo.objects.filter(user = user)
-        return render(request, 'todo/index.html',{'todos': Todo.objects.filter(user = request.user.id),"user1":user})
+        return render(request, 'todo/index.html',{'todos': Todo.objects.filter(user = request.user.id).order_by('priority'),"user1":user})
     else:
         return redirect('signup')
 
@@ -87,3 +87,9 @@ def delete(request,pk):
 def logout(request):
     Logoutuser(request)
     return redirect('login')
+
+def status_task(request, pk, status):
+    todo = Todo.objects.get(id=pk)
+    todo.status = status
+    todo.save()
+    return redirect('/')
