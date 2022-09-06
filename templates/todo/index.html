@@ -6,30 +6,85 @@
     <div>
       <div class="mx-auto flex w-4/6 items-center justify-between py-7">
         <p class="text-4xl font-bold uppercase text-[#FCBB6D]">Todo App</p>
-        <div>
-          <a href=" {% url 'login' %} " class="px-3 text-xs text-[#FEFAD4]">LOG IN</a>
-          <a href=" {% url 'signup' %} " class="px-3 text-xs text-[#FEFAD4]">SIGN UP</a>
+
+        {% if user1.is_authenticated %}
+        <div class="flex justify-between">
+          <p
+            class="inline px-3 text-xs text-[#FEFAD4] font-mono hover:font-bold cursor-pointer"
+          >
+            Hi {{ user.username }}!
+          </p>
+          <a href=" {% url 'logout' %} " class="px-3 text-xs text-[#FEFAD4]">
+            LOGOUT
+          </a>
         </div>
+        {% else %}
+
+        <div>
+          <a href=" {% url 'login' %} " class="px-3 text-xs text-[#FEFAD4]"
+            >LOG IN</a
+          >
+          <a href=" {% url 'signup' %} " class="px-3 text-xs text-[#FEFAD4]"
+            >SIGN UP
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      <div>
+        {%if messages%} {%for message in messages%}
+        <div
+          class="w-4/6 px-3 py-2 bg-[rgba(0,255,0,0.3)] border border-green-500 mx-auto"
+        >
+          {{ message }}
+        </div>
+        {%endfor%} {%endif%}
       </div>
       <!-- main container baa -->
       <div class="mx-auto h-screen w-4/6 rounded-lg bg-[#353139] p-3">
         <form action="/" method="POST">
           {% csrf_token %}
-          <div class="flex w-full">
-            <div class="w-full">
+          <div class="flex w-full ">
+            <div class="w-full h-24 flex flex-col">
               <input
                 required
                 type="text"
                 name="title"
-                class="h-11 w-full border border-gray-100 px-4 outline-none focus-within:outline-none active:outline-none"
+                class="h- w-full border border-gray-100 px-4 outline-none focus-within:outline-none active:outline-none"
                 placeholder="title"
               />
               <input
                 type="text"
                 name="description"
-                class="h-24 w-full border border-gray-100 px-4 outline-none"
+                class="w-full h-full  border border-gray-100 px-4 outline-none"
                 placeholder="description"
-              />
+                
+              >
+              </input>
+            </div>
+            <div class="flex flex-col justify-around bg-white ">
+              <div class="flex justify-around items-center mr-3">
+                <p class="px-4 ">Status</p>
+                <select
+                  name="status"
+                  id="status"
+                  class="border border-purple-500 text-sm w-28 "
+                >
+                  <option value="P" selected>Pending</option>
+                  <option value="C">Completed</option>
+                </select>
+              </div>
+              <div class="flex justify-around items-center mr-3">
+                <p class="px-4 py-2">Priority</p>
+                <select
+                  name="priority"
+                  id="priority"
+                  class="border border-purple-500 text-sm w-28"
+                >
+                  <option value="1" selected>High</option>
+                  <option value="2">Medium</option>
+                  <option value="3">Low</option>
+                </select>
+              </div>
             </div>
             <button class="bg-red-100 px-6" type="submit" title="add task">
               +
@@ -37,64 +92,93 @@
           </div>
         </form>
         <!-- this is for all tasks -->
-        <div class="my-6 grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="my-6 grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
           <!-- this is for single task add for below  -->
-          {% for todo in todos reversed %}
+          {% for todo in todos  %}
           <div
-            class="col-span-1 flex w-full justify-between rounded border border-purple-400 border-l-4 bg-orange-50"
+            class="flex w-full justify-between rounded border border-purple-400 border-l-4 bg-white "
           >
-            <div class="flex flex-col">
-              <p class="w-full px-6 pt-3 font-bold text-gray-800">
+            <div class="flex justify-around flex-col flex-wrap break-words w-fit">
+                <div>
+              <p class="w-full px-6 pt-3 font-bold text-gray-800 ">
                 {{ todo.title }}
               </p>
-              <p class="w-full px-6 py-2 text-gray-500">
+              <div class="flex w-full break-all h-fit px-6 py-2 text-gray-700">
                 {{ todo.description }}
-              </p>
+              </div>
+                </div>
+              <div>
+                <span class="px-6 py-6 text-xs text-gray-500">
+                  {{ todo.date }}
+              </span>
+              <span class="py-2 inline-block">
+                <span class="inline text-xs">Status :</span>
+                {% if todo.status == 'C' %}
+                <span>
+                    <img
+                    
+                      src="https://img.icons8.com/fluency/48/000000/checkmark.png"
+                      class=" inline w-4"
+                    />
+                </span>
+                {% else %}
+                <span>
+                    <img class="w-4 inline" src="https://img.icons8.com/external-dashed-line-kawalan-studio/24/000000/external-pending-social-media-dashed-line-kawalan-studio.png"/>
+                </span>
+                {% endif %}
+                <span class="inline text-xs">
+                    {{ todo.priority }}
+                </span>
+              </span>
+                
+              </div>
             </div>
             <!-- this is for the task progress -->
-            <div class="flex flex-col ">
-                <!--for tick mark-->
-              <div class="bg-green-400 w-full h-full  flex justify-center items-center p-4">
-                <a href="delete/{{ todo.id }}" class=" w-full h-full  flex justify-center items-center  ">
-                  <div>
-                    <svg
-                      class="fill-white w-5 mx-auto"
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="30"
-                      height="30"
-                      viewBox="0 0 30 30"
-                      style=""
-                    >
-                      <path
-                        d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"
-                      ></path>
-                    </svg>
-                  </div>
-                </a>
-              </div>
-              <!-- tick mark ends above tag -->
-              <div class="bg-red-400 w-full h-full  flex justify-center items-center p-4">
-                <a href="delete/{{ todo.id }}" class=" w-full h-full  flex justify-center items-center  ">
-                  <div>
-                    <svg
-                      class="fill-white w-5 mx-auto"
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="30"
-                      height="30"
-                      viewBox="0 0 30 30"
-                      style=""
-                    >
-                      <path
-                        d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"
-                      ></path>
-                    </svg>
-                  </div>
-                </a>
-              </div>
+            <div class="flex flex-col justify-start py-3">
+              <!--for tick mark-->
+              {% if todo.status == 'P' %}
+              <div class="w-full h-full flex justify-center items-center p-3">
+                
+                  <a
+                  title="completed"
+                    href="status_task/{{ todo.id }}/C "
+                    class="flex justify-center items-center"
+                  >
+                    <img
+                      src="https://img.icons8.com/fluency/48/000000/checkmark.png"
+                      class="w-5"
+                    />
+                  </a>
+                </div>
+                <!-- tick mark ends above tag -->
+              {% else %}
+                <div class="w-full h-full flex justify-center items-center p-2">
+                
+                  <a
+                  title="pending"
+                    href="status_task/{{ todo.id }}/P"
+                    class="flex justify-center items-center"
+                  >
+                    <img class="w-5" src="https://img.icons8.com/external-dashed-line-kawalan-studio/24/000000/external-pending-social-media-dashed-line-kawalan-studio.png"/>
+                  </a>
+                </div>
+              {% endif %}
+                
+                <!--delete start-->
+                <div class="w-full h-full flex justify-center items-center p-2">
+                
+                  <a
+                  title="delete"
+                    href="delete/{{ todo.id }}"
+                    class="flex justify-center items-center"
+                  >
+                    <img
+                      src="https://img.icons8.com/color/48/000000/filled-trash.png"
+                      class="w-5"
+                      />
+                  </a>
+                </div>
+                <!--delete end-->
             </div>
             <!-- task progress ends here by the way  -->
           </div>
