@@ -2,9 +2,9 @@
 
 <!--split-->
 {% block content %}
-<div class="w-screen h-screen relative">
+<div class="w-screen h-screen relative bg-[#212123]">
   <div
-    class="w-2/6 p-4 mx-auto shadow-md top-2/4 left-2/4 absolute -translate-x-2/4 -translate-y-2/4"
+    class="w-2/6 p-4 mx-auto shadow-md top-2/4 left-2/4 absolute -translate-x-2/4 -translate-y-2/4 bg-gray-200 rounded "
   >
     <p class="text-center text-gray-700 font-bold text-4xl py-4 font-mono">
       SIGN UP
@@ -16,7 +16,7 @@
         <button class="px-4 py-2 bg-cyan-400 rounded" type="submit">
           Sign up
         </button>
-        <a href="{% url 'login' %} " class="text-red-900 font-mono text-xs">already signed up? Login here</a>
+        <a href="{% url 'login' %} " class="text-red-500 font-mono text-xs h-full  inline-block">already signed up? Login here</a>
       </div>
     </form>
   </div>

@@ -1,8 +1,9 @@
 {% extends 'todo/base.html' %}
+{% load tz %}
 <div>
   {% block content %}
 
-  <div class="bg-[#212123] h-fit">
+  <div class="bg-[#212123] h-full">
     <div>
       <div class="mx-auto flex w-4/6 items-center justify-between py-7">
         <p class="text-4xl font-bold uppercase text-[#FCBB6D]">Todo App</p>
@@ -33,14 +34,14 @@
       <div>
         {%if messages%} {%for message in messages%}
         <div
-          class="w-4/6 px-3 py-2 bg-[rgba(0,255,0,0.3)] border border-green-500 mx-auto"
+          class="w-4/6 m-2 px-3 py-2 bg-[rgba(0,225,155,0.2)] border border-green-500 mx-auto"
         >
           {{ message }}
         </div>
         {%endfor%} {%endif%}
       </div>
       <!-- main container baa -->
-      <div class="mx-auto h-screen w-4/6 rounded-lg bg-[#353139] p-3">
+      <div class="mx-auto h-fit w-4/6 rounded-lg  px-2">
         <form action="/" method="POST">
           {% csrf_token %}
           <div class="flex w-full rounded overflow-hidden ">
@@ -49,7 +50,7 @@
                 required
                 type="text"
                 name="title"
-                class="h- w-full border border-gray-100 px-4 outline-none focus-within:outline-none active:outline-none"
+                class=" h- w-full border border-gray-100 px-4 outline-none focus-within:outline-none active:outline-none"
                 placeholder="title"
               />
               <input
@@ -92,7 +93,7 @@
           </div>
         </form>
         <!-- this is for all tasks -->
-        <div class="my-6 grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
+        <div class="my-6 grid w-full  grid-cols-1 gap-3 sm:grid-cols-3">
           <!-- this is for single task add for below  -->
           {% comment %} <div class="flex flex-col justify-start"> {% endcomment %}
           {% for todo in todos  %}
@@ -110,7 +111,9 @@
                 </div>
               <div>
                 <span class="px-6 py-6 text-xs text-gray-500">
+                    {% timezone 'Asia/Kolkata' %}
                   {{ todo.date }}
+                  {% endtimezone %}
               </span>
               <span class="py-2 inline-block">
                 <span class="inline text-xs">Status :</span>
