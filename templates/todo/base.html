@@ -19,4 +19,24 @@
     
     {% endblock content %}
   </body>
+  <script>
+    cont = document.querySelectorAll('.container');
+    pri = document.querySelectorAll('#prior');
+
+    for(i=0;i<cont.length;i++){
+
+      text = pri[i].innerText
+      if(text == "1"){
+        cont[i].style.borderLeft = "3px solid #f15a22 ";
+      }
+      else if(text == "2"){
+        cont[i].style.borderLeft = "3px solid #f9690e ";
+      }
+      else{
+        cont[i].style.borderLeft = "3px solid #f9b42d";
+      }
+
+    }
+    console.log(text)
+  </script>
 </html>
