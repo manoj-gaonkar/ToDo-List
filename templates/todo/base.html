@@ -1,42 +1,38 @@
 {% load static tailwind_tags %}
 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="icon" href="https://img.icons8.com/fluency/48/000000/todo-list.png" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% tailwind_css %}
-    <title>todo</title>
+    <title>ToDo</title>
   </head>
   <body>
-    <div class="">
-        
+    <div class="h-screen">
+      {% block content %}
+      <!--block content here-->
+
+      {% endblock content %}
     </div>
-    {% block content %} 
-    <!--block content here-->
-    
-    
-    {% endblock content %}
   </body>
   <script>
-    cont = document.querySelectorAll('.container');
-    pri = document.querySelectorAll('#prior');
+    cont = document.querySelectorAll(".container");
+    pri = document.querySelectorAll("#prior");
 
-    for(i=0;i<cont.length;i++){
-
-      text = pri[i].innerText
-      if(text == "1"){
-        cont[i].style.borderLeft = "3px solid #f15a22 ";
-      }
-      else if(text == "2"){
+    for (i = 0; i < cont.length; i++) {
+      text = pri[i].innerText;
+      if (text == "1") {
+        cont[i].style.borderLeft = "3px solid rgba(255,30,30,0.8) ";
+      } else if (text == "2") {
         cont[i].style.borderLeft = "3px solid #f9690e ";
-      }
-      else{
+      } else {
         cont[i].style.borderLeft = "3px solid #f9b42d";
       }
-
     }
-    console.log(text)
+    console.log(text);
   </script>
 </html>
