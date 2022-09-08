@@ -67,9 +67,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request,f'account created for { username } !')
+            messages.success(request,f'account created for { username }!')
             if user is not None:
-                return redirect('login')
+                Loginuser(request, user)
+                return redirect('index')
         else:
             context ={
                 "form": form,
